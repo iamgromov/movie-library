@@ -1,27 +1,27 @@
-export interface IAppState {
-  movies: IMovieItem[];
-  loading: boolean;
+/** Main */
+export type MediaType = 'movie' | 'series' | 'game' | 'all';
+
+export interface IOmdbResponse {
+  Response: string;
+  Search?: Array<IMovieItem>;
+  totalResults?: string;
+  Error?: string;
 }
 
-export type Props = object;
-
-export interface IMainProps {
-  movies: IMovieItem[];
-}
-
+/** Search */
 export interface ISearchProps {
-  searchMovies: (searchValue: string, searchType: string) => void;
+  searchMovies: (
+    value: string,
+    type?: 'all' | 'movie' | 'series' | 'game'
+  ) => void;
 }
 
-export interface ISearchState {
-  search: string;
-  type: string;
+/** Movies */
+export interface IMovies {
+  movies?: IMovieItem[];
 }
 
-export interface IMoviesProps {
-  movies: IMovieItem[];
-}
-
+/** Movie */
 export interface IMovieItem {
   Title: string;
   Year: string;

@@ -1,49 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import type { IMovieItem, IOmdbResponse, MediaType } from '../types/interface';
 
-import type { IAppState } from '../types/interface';
 import Search from '../components/Search';
 import Preloader from '../components/Preloader';
 import Movies from '../components/Movies';
 
-const API_KEY = import.meta.env.VITE_API_URL_KEY;
+const API_KEY = import.meta.env.VITE_API_URL_KEY as string;
 
-class Main extends React.Component<object, IAppState> {
-  state = {
-    movies: [],
-    loading: true,
-  };
+const stubs = [
+  'Marvel',
+  'Bond',
+  'X-men',
+  'Star Wars',
+  'Potter',
+  'Rings',
+  'Jurassic',
+  'Impossible',
+  'Terminator',
+  'Pirates',
+];
 
-  movies = [
-    'Marvel',
-    'Bond',
-    'X-men',
-    'Star Wars',
-    'Potter',
-    'Rings',
-    'Jurassic',
-    'Impossible',
-    'Terminator',
-    'Pirates',
-  ];
+const Main: React.FunctionComponent = () => {
+  const [movies, setMovies] = useState<Array<IMovieItem>>();
+  const [loading, setLoading] = useState(true);
 
-  componentDidMount() {
-    const value = this.movies[Math.floor(Math.random() * this.movies.length)];
-
-    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${value}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        this.setState({ movies: data.Search, loading: false });
-      })
-      .catch((err) => {
-        console.error(err);
-        this.setState({ loading: false });
-      });
-  }
-
-  searchMovies = (value: string, type = 'all') => {
-    this.setState({ loading: true });
+  const searchMovies = (value: string, type: MediaType = 'all') => {
+    setLoading(true);
 
     fetch(
       `https://www.omdbapi.com/?apikey=${API_KEY}&s=${value}${
@@ -53,24 +35,39 @@ class Main extends React.Component<object, IAppState> {
       .then((response) => {
         return response.json();
       })
-      .then((data) => {
-        this.setState({ movies: data.Search, loading: false });
+      .then((data: IOmdbResponse) => {
+        setMovies(data.Search);
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
-        this.setState({ loading: false });
+        setLoading(false);
       });
   };
 
-  render() {
-    const { movies, loading } = this.state;
-    return (
-      <main className='container content'>
-        <Search searchMovies={this.searchMovies} />
-        {loading ? <Preloader /> : <Movies movies={movies} />}
-      </main>
-    );
-  }
-}
+  useEffect(() => {
+    const value = stubs[Math.floor(Math.random() * stubs.length)];
+
+    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${value}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setMovies(data.Search);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
+
+  return (
+    <main className='container content'>
+      <Search searchMovies={searchMovies} />
+      {loading ? <Preloader /> : <Movies movies={movies} />}
+    </main>
+  );
+};
 
 export default Main;

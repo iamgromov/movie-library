@@ -1,14 +1,6 @@
 import type { IMovieItem } from '../types/interface';
 
-const Movie: React.FunctionComponent<IMovieItem> = (props) => {
-  const {
-    Title: title,
-    Year: year,
-    imdbID: imdbID,
-    Type: type,
-    Poster: poster,
-  } = props;
-
+const Movie: React.FC<IMovieItem> = ({ Title, Poster, Type, Year, imdbID }) => {
   return (
     <div
       id={imdbID}
@@ -16,14 +8,14 @@ const Movie: React.FunctionComponent<IMovieItem> = (props) => {
     >
       <div className='card-image'>
         <img
-          alt={`${title} poster`}
-          src={poster}
+          alt={`${Title} poster`}
+          src={Poster}
         />
       </div>
       <div className='card-content white-text'>
-        <span className='card-title'>{title}</span>
+        <span className='card-title'>{Title}</span>
         <p>
-          {year} <span className='right'>{type.toUpperCase()}</span>
+          {Year} <span className='right'>{Type.toUpperCase()}</span>
         </p>
       </div>
     </div>

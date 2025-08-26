@@ -1,4 +1,4 @@
-function Footer() {
+const Footer: React.FunctionComponent = () =>  {
   return (
     <footer className='page-footer cyan darken-4'>
       <div className='footer-copyright'>

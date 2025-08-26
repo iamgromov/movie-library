@@ -1,4 +1,4 @@
-function Header() {
+const Header: React.FunctionComponent = () => {
   return (
     <nav className='cyan darken-2'>
       <div className='nav-wrapper'>
@@ -19,6 +19,6 @@ function Header() {
       </div>
     </nav>
   );
-}
+};
 
 export default Header;

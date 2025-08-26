@@ -1,10 +1,11 @@
-import type { IMoviesProps } from '../types/interface';
+import type { IMovies } from '../types/interface';
+
 import Movie from './Movie';
 
-const Movies: React.FunctionComponent<IMoviesProps> = ({ movies = [] }) => {
+const Movies: React.FC<IMovies> = ({ movies }) => {
   return (
     <div className='movies'>
-      {movies.length ? (
+      {movies?.length ? (
         movies.map((movie) => (
           <Movie
             key={movie.imdbID}
