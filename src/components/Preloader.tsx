@@ -1,6 +1,4 @@
-import type { Props } from '../types/interface';
-
-const Preloader: React.FunctionComponent<Props> = () => {
+const Preloader: React.FC = () => {
   return (
     <div className='preloader preloader-wrapper small active'>
       <div className='spinner-layer spinner-green-only'>
